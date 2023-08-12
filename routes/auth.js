@@ -3,7 +3,7 @@
  */
 
 const {Router, response}= require('express');
-const { createUser } = require('../controllers/auth');
+const { createUser, login } = require('../controllers/auth');
 const { check } = require('express-validator');
 const { validateInputs } = require('../middlewares/validate-inputs');
 
@@ -18,5 +18,10 @@ router.post('/new',[
     check('role','role is required').not().isEmpty(),
     validateInputs
 ],createUser);
+
+router.post('/',[
+    check('email','email is required').isEmail(),
+    check('password','password is required').not().isEmpty(),
+],login);
 
 module.exports=router;
