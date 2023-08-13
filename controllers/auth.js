@@ -36,10 +36,78 @@ const createUser = async(req,res =response)=>{
         console.log(error);
         res.status(500).json({status:false, msg:'Hable con el administrador'});
     }
-
-
-    
 }
 
 
-module.exports={createUser}
+const login=async(req, res= response)=>{
+
+    const {email, password} =req.body;
+
+    try {   
+        const userDB = await User.findOne({email});
+
+        if(!userDB){
+            return res.status(404).json({
+                status:false,
+                msg:'Error al iniciar sesión'
+            });
+        }
+
+
+        const validPassword  = bcrypt.compareSync(password, userDB.password);
+
+        if(!validPassword){
+            return res.status(404).json({
+                status:false,
+                msg:'Error al iniciar sesión'
+            });
+        }
+        
+        const token = await generarJWT(userDB.id);
+        
+        return res.json({success:true,   user:userDB, token});
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status:false,
+            msg:'Hable con el administrador'
+        });
+    }
+}
+
+
+
+const renewToken  = async(req, res = response)=>{
+
+    try {
+        const {uid}  = req;
+        console.log(uid);
+        const userDB = await User.findById(uid);
+
+
+        if(!userDB){
+            return res.status(404).json({
+                status:false,
+                msg:'Error al iniciar sesión'
+            });
+        }
+        
+
+
+        const token = await generarJWT(userDB.id);
+
+        return res.json({success:true,   user:userDB, token});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status:false,
+            msg:'Hable con el administrador'
+        });
+    }
+
+   
+}
+
+
+module.exports={createUser, login, renewToken}
