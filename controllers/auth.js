@@ -27,13 +27,11 @@ const createUser = async(req,res =response)=>{
 
         await user.save();
 
-        console.log(user.id);
 
         const token = await generarJWT(user.id);
 
         res.json({success:true,   user, token});
     } catch (error) {
-        console.log(error);
         res.status(500).json({status:false, msg:'Hable con el administrador'});
     }
 }
@@ -82,7 +80,6 @@ const renewToken  = async(req, res = response)=>{
 
     try {
         const {uid}  = req;
-        console.log(uid);
         const userDB = await User.findById(uid);
 
 

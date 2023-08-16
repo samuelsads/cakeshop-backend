@@ -12,16 +12,12 @@ require('./database/config').dbConnection();
 const app = express();
 
 
+const server = require('http').createServer(app);
+
 
 //Lectura y parseo del body
 
 app.use(express.json());
-
-// Node Server
-const server = require('http').createServer(app);
-module.exports.io = require('socket.io')(server);
-require('./sockets/socket');
-
 
 
 
@@ -34,6 +30,9 @@ app.use( express.static( publicPath ) );
 
 app.use('/api/login',require('./routes/auth'));
 
+app.use('/api/orders', require('./routes/auth_orders'));
+
+app.use('/api/client', require('./routes/auth_clients'));
 
 server.listen( process.env.PORT, ( err ) => {
 
@@ -42,5 +41,6 @@ server.listen( process.env.PORT, ( err ) => {
     console.log('Servidor corriendo en puerto', process.env.PORT );
 
 });
+
 
 
