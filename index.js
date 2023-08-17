@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const {PORT}  = require('./config');
 require('dotenv').config();
 
 //DB config
@@ -34,11 +35,10 @@ app.use('/api/orders', require('./routes/auth_orders'));
 
 app.use('/api/client', require('./routes/auth_clients'));
 
-server.listen( process.env.PORT, ( err ) => {
+server.listen( PORT, ( err ) => {
 
     if ( err ) throw new Error(err);
 
-    console.log('Servidor corriendo en puerto', process.env.PORT );
 
 });
 
