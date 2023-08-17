@@ -13,7 +13,7 @@ const router = Router();
 
 router.post('/new',[
     check('name','name is required').not().isEmpty(),
-    check('surname','surnames is required').not().isEmpty(),
+    check('father_surname','father surname is required').not().isEmpty(),
     check('email','email is required').isEmail(),
     check('password','password is required').not().isEmpty(),
     check('role','role is required').not().isEmpty(),
