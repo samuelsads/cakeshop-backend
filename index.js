@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const {PORT}  = require('./config');
 require('dotenv').config();
 
 //DB config
@@ -12,16 +13,12 @@ require('./database/config').dbConnection();
 const app = express();
 
 
+const server = require('http').createServer(app);
+
 
 //Lectura y parseo del body
 
 app.use(express.json());
-
-// Node Server
-const server = require('http').createServer(app);
-module.exports.io = require('socket.io')(server);
-require('./sockets/socket');
-
 
 
 
@@ -34,13 +31,16 @@ app.use( express.static( publicPath ) );
 
 app.use('/api/login',require('./routes/auth'));
 
+app.use('/api/orders', require('./routes/auth_orders'));
 
-server.listen( process.env.PORT, ( err ) => {
+app.use('/api/client', require('./routes/auth_clients'));
+
+server.listen( PORT, ( err ) => {
 
     if ( err ) throw new Error(err);
 
-    console.log('Servidor corriendo en puerto', process.env.PORT );
 
 });
+
 
 

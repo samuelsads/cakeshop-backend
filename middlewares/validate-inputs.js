@@ -8,6 +8,7 @@ const validateInputs = (req, res, next)=>{
     if(!errores.isEmpty()){
      return res.status(400).json({
          success:false,
+         msg:"Datos incompletos",
          errors:errores.mapped()
      });
     }
