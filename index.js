@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const {PORT}  = require('./config');
 require('dotenv').config();
 
 //DB config
@@ -35,7 +34,7 @@ app.use('/api/orders', require('./routes/auth_orders'));
 
 app.use('/api/client', require('./routes/auth_clients'));
 
-server.listen( PORT, ( err ) => {
+server.listen( process.env.PORT , ( err ) => {
 
     if ( err ) throw new Error(err);
 
