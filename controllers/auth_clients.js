@@ -9,7 +9,7 @@ const createClient = async(req, res  = response)=>{
     try {
         const client  = new Client(req.body);
 
-    client.save(); 
+    await client.save(); 
     return res.json({success:true,  "msg":"Datos guardados correctamente"});
     } catch (error) {
         res.status(500).json({status:false, msg:'Hable con el administrador'});
@@ -27,7 +27,7 @@ const updateClient = async(req, res  = response)=>{
         clientDB.name  = req.body.name;
         clientDB.father_surname = req.body.father_surname;
         clientDB.mother_surname  = req.body.mother_surname;
-        clientDB.save();
+        await clientDB.save();
         return res.json({success:true,  msg:"Datos actualizados correctamente"});
     } catch (error) {
         res.status(500).json({status:false, msg:'Hable con el administrador'});
