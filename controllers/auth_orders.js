@@ -64,11 +64,13 @@ const allOrders = async(req, res  = response)=>{
     const limit = Number(req.query.limit)|| 0;
     try {
        const orders=  await Orders.find({delivered:{$in:(req.query.delivered)}})
+       .populate('client_id','name father_surname mother_surname').populate('user_id', 'name father_surname mother_surname')
        //.sort('-order_delivery_date')
        .skip(start).limit(limit);
         return res.json({success:true,   data: orders});
     } catch (error) {
-        res.status(500).json({status:false, msg:'Hable con el administrador'});
+        console.log(error);
+        res.status(500).json({status:false, msg:'Hable con el administradors'});
     }
 
 }
