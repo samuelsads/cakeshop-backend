@@ -14,7 +14,7 @@ const createOrder = async (req, res  = response)=>{
     try {
         const order  = new Orders(req.body);
 
-        order.save(); 
+       await  order.save(); 
     return res.json({success:true,  "msg":"Datos guardados correctamente"});
     } catch (error) {
         console.log(error);
@@ -28,8 +28,7 @@ const updateOrder = async (req, res  = response)=>{
 
     try {
         const orderDB  = await Orders.findById(req.body.uid);
-        console.log(req.body);
-        console.log(orderDB);
+
         orderDB.description  = req.body.description;
         orderDB.price= req.body.price;
         orderDB.order_delivery_date  = req.body.order_delivery_date;
@@ -37,10 +36,9 @@ const updateOrder = async (req, res  = response)=>{
         orderDB.additional_things  = req.body.additional_things;
         orderDB.delivered = req.body.delivered;
         orderDB.client_id = req.body.client_id;
-        orderDB.save(); 
+        await orderDB.save(); 
     return res.json({success:true,  "msg":"Datos actualizados correctamente"});
     } catch (error) {
-        console.log(error);
         res.status(500).json({status:false, msg:'Hable con el administrador'});
     }
    
