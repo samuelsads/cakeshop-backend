@@ -5,7 +5,7 @@
 
 const {Router, response} = require('express');
 const { check } = require('express-validator');
-const { createOrder, updateOrder, deleteOrder, allOrders } = require('../controllers/auth_orders');
+const { createOrder, updateOrder, deleteOrder, allOrders, total } = require('../controllers/auth_orders');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { updateClient } = require('../controllers/auth_clients');
 
@@ -19,5 +19,7 @@ router.patch('/update',[validarJWT],updateOrder);
 router.delete('/delete',[validarJWT],deleteOrder);
 
 router.get('/all',[validarJWT],allOrders);
+
+router.get('/total',[validarJWT], total);
 
 module.exports  = router;

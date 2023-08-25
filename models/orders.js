@@ -14,6 +14,13 @@ const OrderSchema = Schema({
     
 },{timestamps:true});
 
+OrderSchema.pre('save', function(next) {
+    if (this.order_delivery_date) {
+      this.order_delivery_date.setHours(0, 0, 0, 0); 
+    }
+    next();
+  });
+
 OrderSchema.method('toJSON',function(){
     const {__v,_id,...object} = this.toObject();
     object.uid = _id;
