@@ -67,7 +67,7 @@ const allOrders = async(req, res  = response)=>{
     try {
        const orders=  await Orders.find({delivered:{$in:(req.query.delivered)}})
        .populate('client_id','name father_surname mother_surname').populate('user_id', 'name father_surname mother_surname')
-       //.sort('-order_delivery_date')
+       .sort({order_delivery_date:1})
        .skip(start).limit(limit);
         return res.json({success:true,   data: orders});
     } catch (error) {
