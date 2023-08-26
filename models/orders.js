@@ -9,6 +9,9 @@ const OrderSchema = Schema({
     additional_things:{type:String, required: false},
     delivered:{type:Boolean, default:false},
     paid:{type:Boolean, required:true},
+    advance_payment:{type:Number, required: false},
+    advance_payment_type:{type:Number, required:true},
+    total_products:{type:Number, required:true},
     client_id:{type:Schema.Types.ObjectId, ref:'Clients', required: true},
     user_id:{type:Schema.Types.ObjectId, ref:'User', required:true}
     
