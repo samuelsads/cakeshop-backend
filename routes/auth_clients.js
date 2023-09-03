@@ -6,7 +6,7 @@
 
 const {Router, response} = require('express');
 const {check} = require('express-validator');
-const { createClient, updateClient, deleteClient, allClient } = require('../controllers/auth_clients');
+const { createClient, updateClient, deleteClient, allClient, searchClient } = require('../controllers/auth_clients');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { validateInputs } = require('../middlewares/validate-inputs');
 
@@ -33,5 +33,8 @@ router.delete('/delete',[
 router.get('/all',[    
     validarJWT,
 ], allClient);
+
+
+router.get('/search',[validarJWT], searchClient)
 
 module.exports = router;

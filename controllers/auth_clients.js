@@ -60,4 +60,17 @@ const allClient = async(req, res  = response)=>{
 
 }
 
-module.exports  ={createClient, updateClient, deleteClient, allClient}
+
+const searchClient = async(req, res = response)=>{
+    try {
+        const regex = new RegExp(req.query.search, 'i');
+        const clients=  await Client.find({
+            $or: [{ name: regex }, { father_surname: regex }, { mother_surname: regex }],
+          });
+         return res.json({success:true,   data: clients});
+     } catch (error) {
+         res.status(500).json({status:false, msg:'Hable con el administrador'});
+     }
+}
+
+module.exports  ={createClient, updateClient, deleteClient, allClient, searchClient}
