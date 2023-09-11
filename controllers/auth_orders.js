@@ -64,7 +64,7 @@ const deleteOrder = async(req, res  = response)=>{
 const allOrders = async(req, res  = response)=>{
     const start = Number(req.query.start)|| 0;
     const limit = Number(req.query.limit)|| 0;
-    const today = new Date();
+    const today = DateTime.now().toFormat('yyyy-MM-dd');
     try {
        const orders=  await Orders.find({delivered:{$in:(req.query.delivered)},order_delivery_date: { $gte: today },})
        .populate('client_id','name father_surname mother_surname').populate('user_id', 'name father_surname mother_surname')
