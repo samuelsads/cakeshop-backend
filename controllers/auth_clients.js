@@ -3,9 +3,9 @@ const Client =require('../models/client');
 
 
 const createClient = async(req, res  = response)=>{
-    const {uid} = req;
+    const {user_id} = req;
     
-    req.body.user_id  = uid;
+    req.body.user_id  = user_id;
     try {
         const client  = new Client(req.body);
 

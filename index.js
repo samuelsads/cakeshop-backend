@@ -34,6 +34,8 @@ app.use('/api/orders', require('./routes/auth_orders'));
 
 app.use('/api/client', require('./routes/auth_clients'));
 
+app.use('/api/payments', require('./routes/auth_payments'));
+
 server.listen( process.env.PORT , ( err ) => {
 
     if ( err ) throw new Error(err);

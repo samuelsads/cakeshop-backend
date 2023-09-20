@@ -2,6 +2,7 @@
 
 const {response} = require('express');
 const Orders  = require('../models/orders');
+const Payment  = require('../models/payments');
 const { DateTime } = require('luxon'); 
 
 
@@ -9,17 +10,15 @@ const { DateTime } = require('luxon');
 
 const createOrder = async (req, res  = response)=>{
 
-    const {uid} = req;
-    req.body.user_id  = uid;
+    const {user_id} = req;
+    req.body.user_id  = user_id;
 
 
     try {
         const order  = new Orders(req.body);
-
-       await  order.save(); 
-    return res.json({success:true,  "msg":"Datos guardados correctamente"});
+       await  order.save();
+    return res.json({success:true,  "msg":"Datos guardados correctamente", id:order._id});
     } catch (error) {
-        console.log(error);
         res.status(500).json({status:false, msg:'Hable con el administrador'});
     }
    
