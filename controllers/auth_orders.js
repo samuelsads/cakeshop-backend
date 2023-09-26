@@ -35,7 +35,7 @@ const updateOrder = async (req, res  = response)=>{
 
         const totalPayments = await Payment.aggregate([
             {
-              $match: { order_id: new mongoose.Types.ObjectId(req.body.order_id) }
+              $match: { order_id: new mongoose.Types.ObjectId(req.body.uid) }
             },
             {
               $group: {
