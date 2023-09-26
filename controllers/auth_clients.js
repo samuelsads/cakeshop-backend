@@ -12,7 +12,7 @@ const createClient = async(req, res  = response)=>{
     await client.save(); 
     return res.json({success:true,  "msg":"Datos guardados correctamente"});
     } catch (error) {
-        res.status(500).json({status:false, msg:'Hable con el administrador'});
+        res.status(500).json({success:false, msg:'Hable con el administrador'});
     }
    
 
@@ -30,7 +30,7 @@ const updateClient = async(req, res  = response)=>{
         await clientDB.save();
         return res.json({success:true,  msg:"Datos actualizados correctamente"});
     } catch (error) {
-        res.status(500).json({status:false, msg:'Hable con el administrador'});
+        res.status(500).json({success:false, msg:'Hable con el administrador'});
     }
 
 }
@@ -42,7 +42,7 @@ const deleteClient = async(req, res  = response)=>{
         
         return res.json({success:true,  msg:"Datos eliminados correctamente"});
     } catch (error) {
-        res.status(500).json({status:false, msg:'Hable con el administrador'});
+        res.status(500).json({success:false, msg:'Hable con el administrador'});
     }
 
 }
@@ -55,7 +55,7 @@ const allClient = async(req, res  = response)=>{
        const clients=  await Client.find().skip(start).limit(limit);
         return res.json({success:true,   data: clients});
     } catch (error) {
-        res.status(500).json({status:false, msg:'Hable con el administrador'});
+        res.status(500).json({success:false, msg:'Hable con el administrador'});
     }
 
 }
@@ -89,7 +89,7 @@ const searchClient = async(req, res = response)=>{
          return res.json({success:true,   data: clients});
      } catch (error) {
         console.log(error);
-         res.status(500).json({status:false, msg:'Hable con el administrador'});
+         res.status(500).json({success:false, msg:'Hable con el administrador'});
      }
 }
 
