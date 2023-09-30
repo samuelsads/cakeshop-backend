@@ -13,9 +13,6 @@ const createPayment = async (req, res  = response)=>{
     try {
        
           const orderDB  = await Orders.findById(req.body.order_id);
-          console.log("precio");
-          console.log(orderDB.price);
-          console.log(req.body.order_id);
         const totalPayments = await Payments.aggregate([
             {
               $match: { order_id: new mongoose.Types.ObjectId(req.body.order_id) }
@@ -76,7 +73,7 @@ async function getTotalPaymentsForOrder(orderId) {
 const allPaymentsByOrder = async(req, res  = response)=>{
    const orderId = req.query.id;
     try {
-       const clients=  await Payments.find({order_id:orderId});
+       const clients=  await Payments.find({order_id:orderId}).populate('user_id').populate('order_id');
         return res.json({success:true,   data: clients});
     } catch (error) {
         console.log(error);
