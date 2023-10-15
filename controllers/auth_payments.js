@@ -13,9 +13,6 @@ const createPayment = async (req, res  = response)=>{
     try {
         const payment  = new Payments(req.body);
           const orderDB  = await Orders.findById(req.body.order_id);
-          console.log("precio");
-          console.log(orderDB.price);
-          console.log(req.body.order_id);
         const totalPayments = await Payments.aggregate([
             {
               $match: { order_id: new mongoose.Types.ObjectId(req.body.order_id) }
@@ -28,16 +25,21 @@ const createPayment = async (req, res  = response)=>{
             }
           ]);
         const  total = 0.0;
-        console.log(totalPayments);
           if (totalPayments.length > 0) {
-            console.log("total pagado");
-            console.log(totalPayments[0].total);
-            if(totalPayments[0].total >orderDB.price){
+            console.log(totalPayments[0].total + payment.payment);
+          if((totalPayments[0].total + payment.payment)  >orderDB.price){
                return  res.json({success:true,  "msg":"El total de pagos supera el precio del producto"});
             }
             req.body.advance_payment = totalPayments[0].total;
           } 
        await  payment.save(); 
+
+
+       if((totalPayments[0].total + payment.payment) == orderDB.price){
+        orderDB.advance_payment = (totalPayments[0].total + payment.payment);
+        orderDB.paid = true;
+        orderDB.save();
+      }
     return res.json({success:true,  "msg":"Datos guardados correctamente"});
     } catch (error) {
         console.log(error);
