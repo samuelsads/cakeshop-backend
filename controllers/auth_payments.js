@@ -26,7 +26,6 @@ const createPayment = async (req, res  = response)=>{
           ]);
         const  total = 0.0;
           if (totalPayments.length > 0) {
-            console.log(totalPayments[0].total + payment.payment);
           if((totalPayments[0].total + payment.payment)  >orderDB.price){
                return  res.json({success:true,  "msg":"El total de pagos supera el precio del producto"});
             }
@@ -48,31 +47,6 @@ const createPayment = async (req, res  = response)=>{
    
 }
 
-
-async function getTotalPaymentsForOrder(orderId) {
-    try {
-      // Utiliza una agregación para calcular la suma de los pagos para un order_id específico.
-      const totalPayments = await Payment.aggregate([
-        {
-          $match: { order_id: mongoose.Types.ObjectId(orderId) }
-        },
-        {
-          $group: {
-            _id: null,
-            total: { $sum: '$payment' }
-          }
-        }
-      ]);
-  
-      if (totalPayments.length > 0) {
-        return { total: totalPayments[0].total };
-      } else {
-        return { total: 0 }; // No hay pagos para el order_id especificado.
-      }
-    } catch (error) {
-      return { error: 'Ha ocurrido un error al obtener los pagos' };
-    }
-  }
 
 const allPaymentsByOrder = async(req, res  = response)=>{
    const orderId = req.query.id;
