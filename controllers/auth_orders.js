@@ -50,11 +50,8 @@ const updateOrder = async (req, res = response) => {
 
         const totalPayments = await Payment.aggregate([
             {
-<<<<<<< HEAD
-              $match: { order_id: new mongoose.Types.ObjectId(req.body.uid) }
-=======
                 $match: { order_id: new mongoose.Types.ObjectId(req.body.order_id) }
->>>>>>> release/0.0.12
+
             },
             {
                 $group: {
@@ -66,7 +63,7 @@ const updateOrder = async (req, res = response) => {
         if (totalPayments.length > 0) {
             req.body.advance_payment = totalPayments[0].total;
 
-            if(totalPayments[0].total  == orderDB.price){
+            if (totalPayments[0].total == orderDB.price) {
                 req.body.paid = true;
             }
         }
