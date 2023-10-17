@@ -26,15 +26,10 @@ const createPayment = async (req, res  = response)=>{
           ]);
         const  total = 0.0;
           if (totalPayments.length > 0) {
-<<<<<<< HEAD
-            console.log("total pagado");
-            console.log(totalPayments[0].total);
-            if((totalPayments[0].total+req.body.payment) >orderDB.price){
-               return  res.json({success:false,  "msg":"El total de pagos supera el precio del producto"});
-=======
+
           if((totalPayments[0].total + payment.payment)  >orderDB.price){
                return  res.json({success:true,  "msg":"El total de pagos supera el precio del producto"});
->>>>>>> release/0.0.12
+
             }
             req.body.advance_payment = totalPayments[0].total;
           } 
