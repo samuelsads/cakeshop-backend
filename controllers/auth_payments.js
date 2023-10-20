@@ -2,11 +2,11 @@ const { response } = require('express');
 const Payments = require('../models/payments');
 const Orders = require('../models/orders');
 const mongoose = require('mongoose');
-
+var total = 0.0;
 const createPayment = async (req, res = response) => {
 
   const { user_id } = req;
-
+  
   req.body.user_id = user_id;
 
 
@@ -24,21 +24,21 @@ const createPayment = async (req, res = response) => {
         }
       }
     ]);
-    const total = 0.0;
+    
     if (totalPayments.length > 0) {
-
+      total = totalPayments[0].total;
       if ((totalPayments[0].total + req.body.payment) > orderDB.price) {
-        return res.json({ success: true, "msg": "El total de pagos supera el precio del producto" });
+        return res.json({ success: false, "msg": "El total de pagos supera el precio del producto" });
 
       }
-      
+
       req.body.advance_payment = totalPayments[0].total;
     }
     const payment = new Payments(req.body);
     await payment.save();
 
 
-    if ((totalPayments[0].total + payment.payment) == orderDB.price) {
+    if ((total + payment.payment) == orderDB.price) {
       orderDB.advance_payment = (totalPayments[0].total + payment.payment);
       orderDB.paid = true;
       orderDB.save();
