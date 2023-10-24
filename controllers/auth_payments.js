@@ -28,7 +28,7 @@ const createPayment = async (req, res = response) => {
     if (totalPayments.length > 0) {
       total = totalPayments[0].total;
       if ((totalPayments[0].total + req.body.payment) > orderDB.price) {
-        return res.json({ success: false, "msg": "El total de pagos supera el precio del producto" });
+        return res.json({ success: false, "msg": "El total del pago supera el precio del producto" });
 
       }
 
