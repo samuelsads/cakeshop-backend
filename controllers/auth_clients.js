@@ -1,6 +1,7 @@
 const {response} = require('express');
 const Client =require('../models/client');
-
+const Order = require('../models/orders');
+const Payment = require('../models/payments');
 
 const createClient = async(req, res  = response)=>{
     const {user_id} = req;
@@ -52,7 +53,7 @@ const allClient = async(req, res  = response)=>{
     const start = Number(req.query.start)|| 0;
     const limit = Number(req.query.limit)|| 0;
     try {
-       const clients=  await Client.find().skip(start).limit(limit);
+       const clients=  await Client.find().sort({ createAt: 1 }).skip(start).limit(limit);
         return res.json({success:true,   data: clients});
     } catch (error) {
         res.status(500).json({success:false, msg:'Hable con el administrador'});
@@ -93,4 +94,28 @@ const searchClient = async(req, res = response)=>{
      }
 }
 
-module.exports  ={createClient, updateClient, deleteClient, allClient, searchClient}
+const findById = async(req, res  = response)=>{
+    const clientId = req.query.id;
+    const result=[];
+    
+    try {
+        const orders = await Order.find({ client_id: clientId }).exec();
+    
+        const ordenesConPagos = await Promise.all(
+          orders.map(async (orden) => {
+            
+            const pagos = await Payment.find({ order_id: orden._id }).exec();
+            result.push ({"order": orden,"payments":pagos});
+          })
+        );
+        return res.json({success:true, result});
+      } catch (error) {
+        console.log(error);
+         res.status(500).json({success:false, msg:'Hable con el administrador'});
+      }
+  
+}
+
+
+
+module.exports  ={createClient, updateClient, deleteClient, allClient, searchClient, findById}
