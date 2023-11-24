@@ -104,13 +104,13 @@ const deleteOrder = async (req, res = response) => {
 const allOrders = async (req, res = response) => {
     const start = Number(req.query.start) || 0;
     const limit = Number(req.query.limit) || 0;
-    const today = DateTime.now().minus({hours:6}).toFormat('yyyy-MM-dd');
+    const today = DateTime.now().minus({hours:process.env.HOURS}).toFormat('yyyy-MM-dd');
     try {
         const orders = await Orders.find({ delivered: { $in: (req.query.delivered) }, order_delivery_date: { $gte: today }, })
             .populate('client_id', 'name father_surname mother_surname').populate('user_id', 'name father_surname mother_surname')
             .sort({ order_delivery_date: 1 })
             .skip(start).limit(limit);
-        return res.json({ success: true, data: orders, date:DateTime.now() });
+        return res.json({ success: true, data: orders });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, msg: 'Hable con el administradors' });
@@ -125,15 +125,15 @@ const total = async (req, res = response) => {
     try {
 
 
-        const today = DateTime.now().minus({hours:6}).toFormat('yyyy-MM-dd');
+        const today = DateTime.now().minus({hours:process.env.HOURS}).toFormat('yyyy-MM-dd');
 
-        const tomorrow = DateTime.now().minus({hours:6}).plus({ days: 1 }).toFormat('yyyy-MM-dd');
+        const tomorrow = DateTime.now().minus({hours:process.env.HOURS}).plus({ days: 1 }).toFormat('yyyy-MM-dd');
 
         const orderToday = await Orders.countDocuments({ order_delivery_date: { $gte: today, $lt: tomorrow }, delivered: req.query.delivered });
 
 
-        const nextDay = DateTime.now().minus({hours:6}).plus({ days: 1 }).toFormat('yyyy-MM-dd');
-        const tomorrow1 = DateTime.now().minus({hours:6}).plus({ days: 2 }).toFormat('yyyy-MM-dd');
+        const nextDay = DateTime.now().minus({hours:process.env.HOURS}).plus({ days: 1 }).toFormat('yyyy-MM-dd');
+        const tomorrow1 = DateTime.now().minus({hours:process.env.HOURS}).plus({ days: 2 }).toFormat('yyyy-MM-dd');
 
         const orderTomorrow = await Orders.countDocuments({ order_delivery_date: { $gte: nextDay, $lt: tomorrow1 }, delivered: req.query.delivered });
 
