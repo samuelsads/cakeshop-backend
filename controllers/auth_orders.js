@@ -111,7 +111,7 @@ const allOrders = async (req, res = response) => {
             .populate('client_id', 'name father_surname mother_surname').populate('user_id', 'name father_surname mother_surname')
             .sort({ order_delivery_date: 1 })
             .skip(start).limit(limit);
-        return res.json({ success: true, data: orders, date:today });
+        return res.json({ success: true, data: orders, date:DateTime.now() });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, msg: 'Hable con el administradors' });
